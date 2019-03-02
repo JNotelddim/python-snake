@@ -159,9 +159,5 @@ class Brain:
 
     def get_foods_sorted_by_proximity(self) -> List[Coordinate]:
         """Return foods ordered by proximity."""
-
-        for food in self.board.foods:
-            print(self.me.head.get_distance_from(food), str(food))
-
         sorted_foods = sorted(self.board.foods, key=lambda x: x.get_distance_from(self.me.head))
         return sorted_foods

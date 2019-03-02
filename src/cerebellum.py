@@ -44,10 +44,6 @@ class Cerebellum:
         #any unvisited neighbours are added to "unexplored" and "visited" set
 
         board = self.board if not board else board
-
-        for coord in coordinates:
-            print(coord)
-
         start = self.me.head
 
         unexplored: Queue = Queue()
@@ -71,7 +67,6 @@ class Cerebellum:
                 if current != tail:
                     from_path = self.__get_path_from_current(current, start, came_from)
                     tail_path = self.__get_breadth_first_path([tail], board.advance_snake_along_path(self.me.id, from_path))
-                    print("tail_path attempted, resulted in: ", tail_path)
                     if tail_path:
                         matched = True
                         break
@@ -87,16 +82,8 @@ class Cerebellum:
                     unexplored.put(neighbour)
                     came_from[str(neighbour)] = current
 
-        if not matched:
-            print("no match?!")
-
-        print("start", start)
-        print("current", current)
-
         if current is not None and matched:
             path = self.__get_path_from_current(current, start, came_from)
-            for i in path:
-                print(i, end = '  ')
             return path
         else:
             return []

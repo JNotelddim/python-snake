@@ -4,6 +4,7 @@ import random
 from bottle import debug, default_app, post, request, route, run
 from configparser import ConfigParser
 from typing import DefaultDict, Any
+from pprint import pprint
 
 from app import api
 from src.board import Board
@@ -29,6 +30,8 @@ def start():
 @post('/move')
 def move():
     data = request.json
+    print('Move data:')
+    pprint(data)
     board = Board(data["board"])
     brain = Brain(data["you"]["id"], board)
 
