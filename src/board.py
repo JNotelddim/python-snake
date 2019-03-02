@@ -52,5 +52,12 @@ class Board:
         if not me:
             raise ValueError("No snake for given id!")
 
-        me.coordinates = path + me.coordinates
-        me.coordinates = me.coordinates[len(path)-1:]
+        me.coordinates += path
+        me.coordinates = me.coordinates[len(path):]
+        me.coordinates.reverse()
+        me.coordinates.append(me.coordinates[-1])
+
+        print("new coords:")
+        for coord in me.coordinates:
+            print(coord)
+        return self

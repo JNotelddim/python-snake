@@ -97,49 +97,6 @@ class TestBrain:
         assert brain.get_moves_to(Coordinate(0,2)) == ["left"]
         assert brain.get_moves_to(Coordinate(0,0)) == ["left", "up"]
 
-    #def test_brain_can_follow_wall(self):
-    #    #top wall
-    #    snake = copy.deepcopy(self.main_snake)
-    #    snake[0]["body"] = [(13,0), (12, 0), (11, 0)]
-    #    brain = self.get_brain(snake, self.foods, self.width)
-    #    assert brain.follow_wall() == "left"
-#
-#        snake[0]["body"].reverse()
-#        brain = self.get_brain(snake, self.foods, self.width)
-#        assert brain.follow_wall() == "right"
-#
-#        #left wall
-#        snake = copy.deepcopy(self.main_snake)
-#        snake[0]["body"] = [(0,2), (0,3), (0,4)]
-#        brain = self.get_brain(snake, self.foods, self.width)
-#        assert brain.follow_wall() == "up"
-#
-#        snake[0]["body"].reverse()
-#        brain = self.get_brain(snake, self.foods, self.width)
-#        assert brain.follow_wall() == "down"
-#
-        #bottom wall
-#        snake = copy.deepcopy(self.main_snake)
-#        snake[0]["body"] = [(1,14), (2,14), (3,14)]
-#        brain = self.get_brain(snake, self.foods, self.width)
-#        assert brain.follow_wall() == "left"
-#
-#        snake[0]["body"].reverse()
-#        brain = self.get_brain(snake, self.foods, self.width)
-#        assert brain.follow_wall() == "right"
-#
-#        #right wall
-#        snake = copy.deepcopy(self.main_snake)
-#        snake[0]["body"] = [(14,12), (14,11), (14,10)]
-#        brain = self.get_brain(snake, self.foods, self.width)
-#        assert brain.follow_wall() == "down"
-#
-#        snake[0]["body"].reverse()
-#        brain = self.get_brain(snake, self.foods, self.width)
-#        assert brain.follow_wall() == "up"
-
-
-
     def test_brain_can_follow_tail(self):
         snake = copy.deepcopy(self.main_snake)
         snake[0]["body"] = [(6,5), (6,6), (7,6), (7,7,)]
@@ -159,54 +116,7 @@ class TestBrain:
         brain = self.get_brain(snake, self.foods, self.width)
         assert brain.follow_tail() == ["up", "right"]
 
-
-#    def test_brain_can_circle_perimeter(self):
-#        assert 1 == 2
-
-#    def test_brain_can_go_to_nearest_wall(self):
-#        #quadrant 1
-#        q1_snake = copy.deepcopy(self.main_snake)
-#        q1_snake[0]["body"] = [(12, 1), (13, 1), (13, 2)]
-#        q1_brain = self.get_brain(q1_snake, self.foods, self.width)
-#        assert q1_brain.go_to_nearest_wall() == "up"
-#
-#        q1_snake[0]["body"].reverse()
-#        q1_brain = self.get_brain(q1_snake, self.foods, self.width)
-#        assert q1_brain.go_to_nearest_wall() == "right"
-#
-#        #quadrant 2
-#        q2_snake = copy.deepcopy(q1_snake)
-#        q2_snake[0]["body"] = [(2, 1), (1, 1), (1, 2)]
-#        q2_brain = self.get_brain(q2_snake, self.foods, self.width)
-#        assert q2_brain.go_to_nearest_wall() == "up"
-#
-#        q2_snake[0]["body"].reverse()
-#        q2_brain = self.get_brain(q2_snake, self.foods, self.width)
-#        assert q2_brain.go_to_nearest_wall() == "left"
-#
-#        #quadrant 3
-#        q3_snake = copy.deepcopy(q1_snake)
-#        q3_snake[0]["body"] = [(1, 12), (1, 13), (2, 13)]
-#        q3_brain = self.get_brain(q3_snake, self.foods, self.width)
-#        assert q3_brain.go_to_nearest_wall() == "left"
-#
-#        q3_snake[0]["body"].reverse()
-#        q3_brain = self.get_brain(q3_snake, self.foods, self.width)
-#        assert q3_brain.go_to_nearest_wall() == "down"
-#
-#        #quadrant 4
-#        q4_snake = copy.deepcopy(q1_snake)
-#        q4_snake[0]["body"] = [(12, 13), (13, 13,), (13, 12)]
-#        q4_brain = self.get_brain(q4_snake, self.foods, self.width)
-#        assert q4_brain.go_to_nearest_wall() == "down"
-#
-#        q4_snake[0]["body"].reverse()
-#        q4_brain = self.get_brain(q4_snake, self.foods, self.width)
-#        assert q4_brain.go_to_nearest_wall() == "right"
-
     def test_brain_can_tell_if_snake_is_greatest_length(self):
-        #snake = copy.deepcopy(self.main_snake)
-        #snake[0]["body"] = [(6,5), (6,6), (7,6), (7,7,)]
         brain = self.get_brain(self.main_snake, self.foods, self.width)
         assert brain.get_snake_is_safe_length() == True
 
@@ -223,3 +133,15 @@ class TestBrain:
 
         brain = self.get_brain(self.smol_snek+bigger_snek, self.foods, self.width)
         assert brain.get_snake_is_safe_length() == False
+
+    def test_brain_can_foods_sorted_by_proximity(self):
+        additional_foods = [(14,11), (0,7), (0,14)]
+        brain = self.get_brain(self.main_snake, self.foods+additional_foods, self.width)
+        sorted_foods = brain.get_foods_sorted_by_proximity()
+        assert str(sorted_foods[0]) == "(0,7)"
+        assert str(sorted_foods[1]) == "(10,5)"
+        assert str(sorted_foods[2]) == "(6,12)"
+        assert str(sorted_foods[3]) == "(0,14)"
+        assert str(sorted_foods[4]) == "(14,11)"
+
+
