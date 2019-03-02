@@ -1,6 +1,7 @@
 """Coordinate module"""
 from __future__ import annotations
 from typing import Tuple, Optional, Any, List
+import math
 
 
 class Coordinate(object):
@@ -87,3 +88,10 @@ class Coordinate(object):
             neighbours.append(move_coordinate)
 
         return neighbours 
+
+    def get_distance_from(self, other) -> float:
+        """Return the distance from other coordinate to this coordinate."""
+        x_diff = self.x - other.x
+        y_diff = self.y - other.y
+        distance = math.sqrt( x_diff * x_diff + y_diff * y_diff )
+        return distance
