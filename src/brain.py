@@ -37,11 +37,12 @@ class Brain:
             #get path to food
             path_to_nearest_food = self.cerebellum.get_path(None, self.board.foods)#nearest_food)
 
-            #get string direction move for first coord in path
-            moves_for_first_path_step = self.get_moves_to(path_to_nearest_food[0])
+            if len(path_to_nearest_food):
+                #get string direction move for first coord in path
+                moves_for_first_path_step = self.get_moves_to(path_to_nearest_food[0])
 
-            #pick a move out of ^ based on what's "valid"
-            decision = next((move for move in moves_for_first_path_step if move in valid_moves), None)
+                #pick a move out of ^ based on what's "valid"
+                decision = next((move for move in moves_for_first_path_step if move in valid_moves), None)
 
             if not decision:
                 #go to tail if there weren't any valid food paths

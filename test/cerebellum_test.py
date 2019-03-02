@@ -84,3 +84,4 @@ class TestCerebellum:
             Coordinate(0,4),
             Coordinate(0,5)
         ]
+

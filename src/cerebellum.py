@@ -93,7 +93,7 @@ class Cerebellum:
         print("start", start)
         print("current", current)
 
-        if current is not None:
+        if current is not None and matched:
             path = self.__get_path_from_current(current, start, came_from)
             for i in path:
                 print(i, end = '  ')
