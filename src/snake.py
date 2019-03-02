@@ -15,7 +15,7 @@ class Snake:
         return self.id == other.id
 
     def __str__(self) -> str:
-        return str(self.id) + "; " + str(self.health)
+        return str(self.id) + "; " + str(self.health) + "; " + str(self.coordinates)
 
     @property
     def id(self) -> str:
