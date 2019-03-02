@@ -36,7 +36,9 @@ class Brain:
             if nearest_food is not None:
                 path_to_nearest_food = self.cerebellum.get_path(nearest_food)
                 moves_for_first_path_step = self.get_moves_to(path_to_nearest_food[0])
+                #TODO: keep checking
                 decision = next((move for move in moves_for_first_path_step if move in valid_moves), None)
+
         else:
             tail_path = self.cerebellum.get_path(tail)
             if tail_path is None or len(tail_path) == 0:

@@ -1,5 +1,6 @@
 """Pathfinding Module"""
 import pdb
+import copy
 from queue import Queue
 from typing import List, Optional
 from src.snake import Snake
@@ -12,7 +13,7 @@ class Cerebellum:
     def __init__(self, me: Snake, board: Board, selected_algorithm: Optional[str] = None) -> None:
         self.selected_algorithm: str = selected_algorithm if selected_algorithm is not None else "breadth_first"
         self.me = me
-        self.board: Board = board
+        self.board: Board = copy.deepcopy(board)
 
     def get_path(self, coordinate: Optional[Coordinate] = None, coordinates: Optional[List[Coordinate]] = None) -> List[Coordinate]:
         """Find path to given coordinate/coordinates based on pathfinder's selected algorithm."""
@@ -35,12 +36,14 @@ class Cerebellum:
 
         return path
 
-    def __get_breadth_first_path(self, coordinates: List[Coordinate]) -> List[Coordinate]:
+    def __get_breadth_first_path(self, coordinates: List[Coordinate], board: Optional[Board] = None) -> List[Coordinate]:
         """Find path using breadth-first algorithm."""
 
         #pick location from grid (self.me.head)
         #expand that location by looking at neighbours
         #any unvisited neighbours are added to "unexplored" and "visited" set
+
+        board = self.board if not board else board
 
         for coord in coordinates:
             print(coord)
@@ -52,7 +55,7 @@ class Cerebellum:
         came_from: dict = {}
         came_from[str(start)] = None
 
-        collision_coordinates = [coordinate for snake in self.board.snakes for coordinate in snake.coordinates]
+        collision_coordinates = [coordinate for snake in board.snakes for coordinate in snake.coordinates]
 
         #remove this snake's tail from array of "invalid moves"
         tail = self.me.coordinates[-1]
@@ -64,11 +67,19 @@ class Cerebellum:
         while not unexplored.empty():
             current = unexplored.get()
 
-            if any(coord.x == current.x and coord.y == current.y for coord in coordinates):
-                matched = True
-                break
+            if any(coord == current for coord in coordinates):
+                if coord != tail:
+                    from_path = self.__get_path_from_current(current, start, came_from)
+                    tail_path = self.__get_breadth_first_path([tail], board.advance_snake_along_path(self.me.id, from_path))
+                    print("tail_path attempted, resulted in: ", tail_path)
+                    if tail_path:
+                        matched = True
+                        break
+                else:
+                    matched = True
+                    break
 
-            valid_move_coordinatees = [coord for coord in current.get_neighbours() if self.board.is_coordinate_in_bounds(coord) and coord not in collision_coordinates]
+            valid_move_coordinatees = [coord for coord in current.get_neighbours() if board.is_coordinate_in_bounds(coord) and coord not in collision_coordinates]
             #also need to account for snakebodies
 
             for neighbour in valid_move_coordinatees:

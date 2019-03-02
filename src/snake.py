@@ -29,6 +29,10 @@ class Snake:
             self._coordinates = [Coordinate(coordinate_tuple) for coordinate_tuple in self._data['body']]
         return self._coordinates
 
+    @coordinates.setter
+    def coordinates(self, coordinates):
+        self._coordinates = coordinates
+
     @property
     def head(self) -> Coordinate:
         """Get the coordinate which represents the location of this Snake's head."""

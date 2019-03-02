@@ -1,4 +1,5 @@
 """Board Module"""
+import copy
 from typing import Tuple, List
 from src.coordinate import Coordinate
 from src.snake import Snake
@@ -39,3 +40,17 @@ class Board:
     def get_other_snakes(self, exclude_id) -> List[Snake]:
         """Get the List of Snakes whose IDs don't match the given ID."""
         return [snake for snake in self.snakes if snake.id != exclude_id]
+
+    def advance_snake_along_path(self, snake_id: str, path: List[Coordinate]):
+        """Return a new board with our snake advanced along given path."""
+        new_board = copy.deepcopy(self)
+        return new_board.__help_advance_snake_along_path(snake_id, path)
+
+    def __help_advance_snake_along_path(self, snake_id: str, path: List[Coordinate]):
+        """Do the actual advancement of the snake along the path."""
+        me = next((snake for snake in self.snakes if snake.id == snake_id), None)
+        if not me:
+            raise ValueError("No snake for given id!")
+
+        me.coordinates = path + me.coordinates
+        me.coordinates = me.coordinates[len(path)-1:]
