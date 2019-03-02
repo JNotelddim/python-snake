@@ -34,9 +34,6 @@ class Brain:
 
         # find food if snake isn't longest / is hungry
         if not self.get_snake_is_safe_length() or self.me.health < self.hunger_threshold:
-            #nearest_food = self.get_nearest_food()
-            #if nearest_food is not None:
-
             #get path to food
             path_to_nearest_food = self.cerebellum.get_path(None, self.board.foods)#nearest_food)
 
@@ -161,13 +158,9 @@ class Brain:
 
     def get_foods_sorted_by_proximity(self) -> List[Coordinate]:
         """Return foods ordered by proximity."""
+
+        for food in self.board.foods:
+            print(self.me.head.get_distance_from(food), str(food))
+
         sorted_foods = sorted(self.board.foods, key=lambda x: x.get_distance_from(self.me.head))
         return sorted_foods
-#        food_dists = {}
-#
-#        for food in self.board.foods:
-#            dist = self.me.head.get_distance_from(food)
-#            food_dists[str(self.me.head)] = dist
-#
-#        for i in range(max(food_dists.values) + 1):
-#            sorted_foods += [food_di]

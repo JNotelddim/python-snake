@@ -61,3 +61,26 @@ class TestCoordinate:
         # Coordinates can only be compared against other coordinates.
         assert (coordinate_a == coordinate_d) is not True
         assert coordinate_a != coordinate_d
+
+    def test_coordinate_can_get_distance_to_other_coordinates(self):
+        a = Coordinate(0,0)
+        b = Coordinate(0,5)
+        assert a.get_distance_from(b) == 5
+
+        b = Coordinate(0,10)
+        assert a.get_distance_from(b) == 10
+
+        b = Coordinate(5,0)
+        assert a.get_distance_from(b) == 5
+
+        b = Coordinate(3,4)
+        assert a.get_distance_from(b) == 5
+
+        b = Coordinate(6,8)
+        assert a.get_distance_from(b) == 10
+
+        a = Coordinate(5,5)
+        b = Coordinate(23, 29)
+        assert a.get_distance_from(b) == 30
+
+
