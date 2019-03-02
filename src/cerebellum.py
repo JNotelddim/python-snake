@@ -68,7 +68,7 @@ class Cerebellum:
             current = unexplored.get()
 
             if any(coord == current for coord in coordinates):
-                if coord != tail:
+                if current != tail:
                     from_path = self.__get_path_from_current(current, start, came_from)
                     tail_path = self.__get_breadth_first_path([tail], board.advance_snake_along_path(self.me.id, from_path))
                     print("tail_path attempted, resulted in: ", tail_path)
