@@ -31,7 +31,7 @@ class Brain:
                 return self.follow_tail()[0]
             return self.get_moves_to(path[0])[0]
 
-        if self.me.health < self.hunger_threshold:
+        if not self.get_snake_is_safe_length() or self.me.health < self.hunger_threshold:
             nearest_food = self.get_nearest_food()
             if nearest_food is not None:
                 path_to_nearest_food = self.cerebellum.get_path(nearest_food)
@@ -129,3 +129,11 @@ class Brain:
         if abs(y_diff) > abs(x_diff):
             options.reverse()
         return options
+
+    def get_snake_is_safe_length(self) -> bool:
+        """Get whether snake is longest on board (by 2)."""
+        for snake in self.other_snakes:
+            if len(snake.coordinates) > len(self.me.coordinates) - 2:
+                return False
+
+        return True

@@ -203,3 +203,23 @@ class TestBrain:
 #        q4_snake[0]["body"].reverse()
 #        q4_brain = self.get_brain(q4_snake, self.foods, self.width)
 #        assert q4_brain.go_to_nearest_wall() == "right"
+
+    def test_brain_can_tell_if_snake_is_greatest_length(self):
+        #snake = copy.deepcopy(self.main_snake)
+        #snake[0]["body"] = [(6,5), (6,6), (7,6), (7,7,)]
+        brain = self.get_brain(self.main_snake, self.foods, self.width)
+        assert brain.get_snake_is_safe_length() == True
+
+        brain = self.get_brain(self.main_snake+self.smol_snek, self.foods, self.width)
+        assert brain.get_snake_is_safe_length() == False
+
+        brain = self.get_brain(self.main_snake+self.equal_snake, self.foods, self.width)
+        assert brain.get_snake_is_safe_length() == False
+
+        bigger_snek = copy.deepcopy(self.main_snake)
+        bigger_snek[0]["body"] = [(2,2), (2,3), (3,3), (3,4)]
+        brain = self.get_brain(bigger_snek+self.smol_snek, self.foods, self.width)
+        assert brain.get_snake_is_safe_length() == True
+
+        brain = self.get_brain(self.smol_snek+bigger_snek, self.foods, self.width)
+        assert brain.get_snake_is_safe_length() == False
